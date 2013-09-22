@@ -1,0 +1,89 @@
+#######################################
+# Syntax Coloring iLedSign
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Digit32x16	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+Init	KEYWORD2
+ShiftLeft	KEYWORD2
+
+ShiftRight	KEYWORD2
+
+Set	KEYWORD2
+Get	KEYWORD2
+Flip	KEYWORD2
+
+Clear	KEYWORD2
+
+Horizontal	KEYWORD2
+Vertical	KEYWORD2
+GetSW	KEYWORD2
+GetPeriod	KEYWORD2
+Vwrite	KEYWORD2
+
+write	KEYWORD2
+
+write90	KEYWORD2
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+#######################################
+# Syntax Coloring iFigure
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+iFigure	KEYWORD1
+
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+Draw	KEYWORD2
+
+Draw90	KEYWORD2
+
+Scroll90	KEYWORD2
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+
+#######################################
+# Syntax Coloring iFont
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+dFont	KEYWORD1
+
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+Width	KEYWORD2
+Data	KEYWORD2
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
