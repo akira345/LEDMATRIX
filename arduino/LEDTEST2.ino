@@ -12,8 +12,8 @@
 #include <MsTimer2.h>
 #include <Digit32x16.h>
 #define LED_PIN 13
-uint16_t kanji[32];//ドット表示バッファ。16の整数倍を指定
-unsigned int len = 32;
+uint16_t kanji[16];//ドット表示バッファ。16の整数倍を指定
+unsigned int len = 16;
 unsigned int cnt = 0;
 void setup() {
   // put your setup code here, to run once:
@@ -30,7 +30,7 @@ void display_led(){
         unsigned int wk = kanji[j+y];          //ドットデータ読み込み
         Digit32x16::Set(31,y,bitRead(wk,15-x));//縦1bit分送信。x座標は右端31固定
       }
-      delay(37);
+      delay(40);
       Digit32x16::ShiftLeft();//出力したデータ全体を左に1bitシフトする
     }
   }
