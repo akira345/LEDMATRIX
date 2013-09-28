@@ -12,13 +12,15 @@
 #include <MsTimer2.h>
 #include <Digit32x16.h>
 #define LED_PIN 13
-uint16_t kanji[16];//ドット表示バッファ。16の整数倍を指定
-unsigned int len = 16;
+uint16_t kanji[64];//ドット表示バッファ。16の整数倍を指定
+uint16_t buff[64];
+unsigned int len = 64;
 unsigned int cnt = 0;
+bool ret;
 void setup() {
   // put your setup code here, to run once:
   Digit32x16::Init();
-  Serial.begin(9600);
+  Serial.begin(57600);
   pinMode(LED_PIN,OUTPUT);
 }
 
@@ -30,32 +32,66 @@ void display_led(){
         unsigned int wk = kanji[j+y];          //ドットデータ読み込み
         Digit32x16::Set(31,y,bitRead(wk,15-x));//縦1bit分送信。x座標は右端31固定
       }
-      delay(40);
+      if (buffer_full() || Serial.available()==0){
+        delay(30);
+      }
+      else{
+          delay(10);
+        get_data(25);
+      }
       Digit32x16::ShiftLeft();//出力したデータ全体を左に1bitシフトする
     }
   }
   digitalWrite(LED_PIN,LOW);
 }
+bool buffer_full(){
+  if (cnt>len-1){
+    return 1;
+  } 
+  else{
+    return 0; 
+  }
+
+}
+void get_data(unsigned int n){
+  //シリアルバッファにデータが有れば取り込む
+  unsigned int c;
+  if(buffer_full()==0){
+    if (Serial.available()>0){
+      if (n==0){
+        c=len;
+      }
+      for(unsigned int i=0;i<c;++i){
+        if(buffer_full() || Serial.available()==0){
+          break;
+        }
+        //シリアルデータがら上位8bit,下位8bitを取得し、16bitのデータを組み立てる
+        unsigned int high_bit=Serial.read();//上位8bit
+        Serial.write(high_bit);
+        while(Serial.available()==0){
+          //wait
+        }
+        unsigned int low_bit =Serial.read();//下位8bit
+        Serial.write(low_bit);
+        //delay(1);
+        buff[cnt]=(high_bit<<8)+low_bit;//16bitに組み立て
+        cnt ++;
+      }
+    }
+  }
+}
 void loop() {
   // put your main code here, to run repeatedly:
-  //シリアルバッファにデータが有れば取り込む
-  while(Serial.available()>1){
-  //16個取り込んだらLEDへ表示する
-    if (cnt>len-1){
-      cnt=0;
-      display_led();
-      //Serial.flush();
+  get_data(0);
+  if (buffer_full()){
+    for (unsigned int i=0;i<len;i++){
+      kanji[i]=buff[i];
     } 
- //シリアルデータがら上位8bit,下位8bitを取得し、16bitのデータを組み立てる
-    unsigned int high_bit=Serial.read();//上位8bit
-    //Serial.write(high_bit);
-    unsigned int low_bit =Serial.read();//下位8bit
-    //Serial.write(low_bit);
-    //delay(1);
-    kanji[cnt]=(high_bit<<8)+low_bit;//16bitに組み立て
-    cnt ++;
+    cnt=0;
+    display_led();
   }
 } 
+
 
 
 
