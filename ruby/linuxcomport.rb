@@ -1,4 +1,5 @@
 ﻿# coding: utf-8
+#タイミングの問題か、Linuxでは上手く動作しない。
 class Com
   def open(defport="/dev/ttyACM0")
     @com = File.open(defport,"r+b")
@@ -35,12 +36,12 @@ pp "Get"
 
   def get_bin
     #x.times do
-     # c = @com.sysread(1)
-#pp @com.methods
-1.times do
-pp @com.sysread(4)
-end
-#@com.flush
+    # c = @com.sysread(1)
+    #pp @com.methods
+    1.times do
+      pp @com.sysread(4)
+    end
+    #@com.flush
     #end
   end
   def put_bin(x)
@@ -52,8 +53,8 @@ end
 #      puts "0x#{low_bit.to_s(16)}"
 #      @com.putc(high_bit)  #上位ビット
 #      @com.putc(low_bit)   #下位ビット
-put_bit(high_bit)
-put_bit(low_bit)
+       put_bit(high_bit)
+       put_bit(low_bit)
 #      sleep(0.05)
     }
     puts "Send"
